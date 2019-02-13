@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+    <title>Mini App</title>
+
+    <style>
+      #body{
+        backgroud:white;
+      }
+      
+    </style>
+  </head>
+  <body id=body>
+   
+    <!-- Headline in H2 -->
+    	<h2>GanDollarz Currency Test 1 </h2>
+    
+     <!-- Select Element tag -->
+    <div class="select-currency select">
+      	<select class= "seslect-text" >
+          <option value="Disabled">Disabled</option>
+          <option value="Selected">Selected</option>
+          <option value="Choose currency">Choose currency</option>
+        </select>
+     <div/>
+      
+       <!-- Button converter -->
+      <button class="btn">Naira Converter</button>
+      
+       <!-- Display Conversion div -->
+      <div class=" conversion mdc-elevation--z3"><div/>
+        
+        <!-- Display Messsages -->
+       <div class=" message"><div/>
+    <script>
+      
+      const currencies = [{
+        id: 'USD', name: 'US Dollars'
+      }, {
+        id: 'UGX', name: 'Ugandan Shillings'
+      }, {
+        id: 'KES', name: 'Kenyan Shillings'
+      }, {
+        id: 'GHS', name: 'Ghanian Cedi'
+      }, {
+        id: 'ZAR', name: 'South African Rand'
+      }];
+      
+      const apiBase = 'https://free.currencyconverterapi.com/api/v6/';
+      const api = (currency) => `
+        ${apiBase}convert?q=${currency}_NGN&compact=ultra
+	  `;
+      
+      const toast = (msg) => {
+        const toastr = document.querySelector('.messages');
+        if(!toastr) return;
+        
+        toastr.textContent = msg;
+        if(!toastr.classList.contains('on')) {
+          toastr.classList.add('on');
+        }
+      };
+      
+      const doneToasting = () => {
+        const toastr = document.querySelector('.messages');
+        if(!toastr) return;
+        
+        toastr.textContent = '';
+        toastr.classList.remove('on');
+      };
+      
+      const conversionSucceeded = (apiResponse) => {
+        if(!apiResponse) {
+          toast(`nothing to display ...`);
+          return;
+        }
+        
+        const [value] = Object.values(apiResponse)
+        
+        const btn = document.querySelector('button');
+        btn.removeAttribute('disabled');
+        
+        const display = document.querySelector('.conversion');
+        const formatter = new Intl.NumberFormat(
+          'en-NG', { style: 'currency', currency: 'NGN' }
+        );
+        
+        display.textContent = formatter.format(value);
+        doneToasting();
+      };
+      
+      // declare populateCurrencies here 
+      const populateCurrencies = (Currencies);
+      
+         
+      
+      const getSelectedCurrency = (populateCurrencies) => {
+        // here, determine and return the selected value 
+        // of the SELECT element
+      };
+            
+      const convert = (event) => {
+        toast(`preparing to convert ...`);
+        
+        const btn = event ? 
+              event.target : document.querySelector('button');
+        
+        const selected = getSelectedCurrency();
+        
+        if(!selected || selected.trim() === '' 
+           || !currencies.map(c => c.id).includes(selected)) return;
+        
+        btn.setAttribute('disabled', 'disabled');
+        toast(`converting ...`);
+        
+        const endpoint = api(selected);
+        
+        // make a GET fetch call to the endpoint
+        // variable declared above, convert the response to JSON,
+        // then call conversionSucceeded and pass the JSON data to it
+        
+      };
+      
+      const startApp = () => {
+        // call populateCurrencies here
+          
+        // add a click listener to the button here
+        
+      };
+
+      startApp();
+    </script>
+  </body>
+</html>
+
